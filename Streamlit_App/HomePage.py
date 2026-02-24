@@ -10,8 +10,15 @@ import matplotlib.dates as mdates
 
 st.set_page_config(page_title="Home", layout= "wide")
 
-st.header("Krebs - Entstehung und Prävention")
+components.html("""
+<div style="max-width:900px; margin:auto; color:#EAEAEA; font-family:sans-serif;">
 
+    <h1 style="margin-bottom:20px;">
+        Krebs – Entstehung und Prävention
+    </h1>
+
+</div>
+""", height=60)
 
 
 components.html("""
@@ -34,8 +41,15 @@ components.html("""
 
 
 
-st.subheader("Risikofaktoren")
+components.html("""
+<div style="max-width:900px; margin:auto; color:#EAEAEA; font-family:sans-serif;">
 
+    <h1 style="margin-bottom:20px;">
+        Risikofaktoren
+    </h1>
+
+</div>
+""", height=60)
 
 components.html("""
 <div style="max-width:900px; margin:auto; color:#EAEAEA; font-family:sans-serif; line-height:1.6;">
@@ -64,7 +78,15 @@ components.html("""
 
 
 
-st.subheader("Wie verringere ich mein Krebsrisiko?")
+components.html("""
+<div style="max-width:900px; margin:auto; color:#EAEAEA; font-family:sans-serif;">
+
+    <h1 style="margin-bottom:20px;">
+        Wie verringere ich mein Krebsrisiko?
+    </h1>
+
+</div>
+""", height=60)
 
 components.html("""
 <div style="max-width:900px; margin:auto; color:#EAEAEA; font-family:sans-serif; line-height:1.6;">
