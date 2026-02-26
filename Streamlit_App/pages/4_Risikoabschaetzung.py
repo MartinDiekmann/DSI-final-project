@@ -2,7 +2,7 @@ import streamlit as st
 import joblib
 import pandas as pd
 
-# test commit connection
+
 
 # -------------------------------------------------
 # PAGE CONFIG
@@ -62,7 +62,6 @@ model = joblib.load(model_path)
 expected_features = [
     "Alter",
     "Geschlecht",
-    "Ethnie",
     "Höchster Bildungsabschluss",
     "Familienstand",
     "Verhältnis zwischen Familieneinkommen und Armut",
@@ -118,15 +117,6 @@ with col1:
     geschlecht_map = {"Männlich": 1.0, "Weiblich": 2.0}
     geschlecht = geschlecht_map[st.selectbox("Geschlecht", list(geschlecht_map.keys()))]
 
-    ethnie_map = {
-        "Mexikanisch": 1.0,
-        "Andere hispanische Herkunft": 2.0,
-        "Weiß": 3.0,
-        "Schwarz": 4.0,
-        "Andere": 5.0
-    }
-    ethnie = ethnie_map[st.selectbox("Ethnie", list(ethnie_map.keys()))]
-
     education_map = {
         "Hauptschule": 1.0,
         "Realschule": 2.0,
@@ -154,8 +144,8 @@ with col1:
 
     st.header("Körpermaße")
 
-    gewicht = st.number_input("Gewicht (kg)", 40.0, 200.0, 75.0)
-    groesse = st.number_input("Körpergröße (cm)", 140.0, 220.0, 170.0)
+    gewicht = st.number_input("Gewicht (kg)", 40, 200, 75, step=1)
+    groesse = st.number_input("Körpergröße (cm)", 140, 220, 170, step=1)
 
     bmi = gewicht / ((groesse / 100) ** 2)
     st.write(f"Berechneter BMI: **{bmi:.1f}**")
@@ -207,6 +197,28 @@ with col2:
 
     st.markdown('</div>', unsafe_allow_html=True)
 
+#=================================================
+# OPTIONAL NUTRITION
+# =================================================
+
+st.markdown("---")
+use_nutrition = st.checkbox("Erweiterte Analyse mit Ernährungsdaten")
+
+if use_nutrition:
+    energy = st.number_input("Energie (kcal)", 500.0, 5000.0, 2000.0)
+    sugar = st.number_input("Zucker (gm)", 0.0, 500.0, 80.0)
+    fat = st.number_input("Fette (gm)", 0.0, 300.0, 70.0)
+    fiber = st.number_input("Ballaststoffe (gm)", 0.0, 80.0, 20.0)
+    protein = st.number_input("Protein (gm)", 0.0, 200.0, 70.0)
+    cholesterol = st.number_input("Cholesterol (mg)", 0.0, 1000.0, 200.0)
+else: #sind die Werte nicht eingegeben, werden Durchschnittswerte aus dem Datensatz verwendet
+    energy = 1926.73
+    sugar = 89.9
+    fat = 80.7
+    fiber = 15.41
+    protein = 71.56
+    cholesterol = 276.7
+
 # =================================================
 # RESULT COLUMN
 # =================================================
@@ -245,10 +257,11 @@ with col3:
 
 if st.button("Risiko berechnen"):
 
+    
+
     user_input = {
         "Alter": age,
         "Geschlecht": geschlecht,
-        "Ethnie": ethnie,
         "Höchster Bildungsabschluss": education,
         "Familienstand": familienstand,
         "Verhältnis zwischen Familieneinkommen und Armut": income_ratio,
@@ -276,13 +289,13 @@ if st.button("Risiko berechnen"):
         "Häufigkeit körperl. anstrengender Aktivitäten": aktivitaet_vig_freq,
         "Schalfstunden unter der Woche": schlaf_woche,
         "Schalfstunden am Wochenende": schlaf_wochenende,
-        "Energy (kcal)": 1926.73,
-        "Total sugars (gm)": 89.9,
-        "Total fat (gm)": 80.7,
-        "Dietary fiber (gm)": 15.41,
-        "Protein (gm)": 71.56,
-        "Cholesterol (mg)": 276.7
-    }
+        "Energy (kcal)": energy,
+        "Total sugars (gm)": sugar,
+        "Total fat (gm)": fat,
+        "Dietary fiber (gm)": fiber,
+        "Protein (gm)": protein,
+        "Cholesterol (mg)": cholesterol
+        }
 
     input_df = pd.DataFrame([user_input])
     input_df = input_df[expected_features]
@@ -302,3 +315,12 @@ if st.button("Risiko berechnen"):
             st.warning("Bitte ärztliche Beratung in Betracht ziehen.")
         else:
             st.success("Niedriges Risiko")
+
+
+        st.markdown(
+        "Dieses Modell dient ausschließlich zu Demonstrationszwecken "
+        "und ersetzt keine medizinische Diagnose."
+        , unsafe_allow_html=True
+        )
+
+        
