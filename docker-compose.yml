@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  cancer_app:
+    image: cancer_app_image:latest
+    container_name: cancer-app-container
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    restart: unless-stopped
+    
